@@ -1,0 +1,99 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+    background-color: #f4f4f4;
+}
+
+.nft-container {
+    max-width: 600px;
+    margin: 20px auto;
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.nft-title {
+    text-align: center;
+}
+
+.nft-upload-section {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.nft-upload-box {
+    display: inline-block;
+    width: 100%;
+    max-width: 400px;
+    height: 200px;
+    border: 2px dashed #cccccc;
+    border-radius: 8px;
+    position: relative;
+    cursor: pointer;
+    background-color: #f9f9f9;
+    padding: 10px;
+}
+
+.nft-preview-wrapper {
+    display: flex;
+    justify-content: center; /* 가로 중앙 정렬 */
+    align-items: center; /* 세로 중앙 정렬 */
+    position: relative;
+    height: 100%;
+    width: 100%;
+}
+
+.nft-image-plus{
+    width: 50px;
+    height: 50px;
+    position: absolute;
+    z-index: 1;
+}
+
+.nft-file-input {
+    display: none;
+}
+
+.nft-image-preview {
+    display: none;
+    max-height: 100%;
+    max-width: 100%;
+    object-fit: contain;
+    margin: 0 auto;
+    display: block;
+    border-radius: 4px;
+}
+
+.nft-details {
+    margin-bottom: 20px;
+}
+
+.nft-label {
+    display: block;
+    margin-bottom: 8px;
+}
+
+.nft-input {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.nft-submit-button {
+    width: 100%;
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.nft-submit-button:hover {
+    background-color: #45a049;
+}

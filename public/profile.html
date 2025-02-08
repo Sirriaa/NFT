@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NFT 아트 마켓</title>
+    <link rel="stylesheet" href="css/Header.css">
+    <link rel="stylesheet" href="css/Profile.css">
+    <link rel="stylesheet" href="css/Footer.css">
+</head>
+<body>
+    <div class="App">
+        <header>
+            <div class="home"></div>
+            <nav>
+                <ul>
+                    <li><a href="Market.html">마켓</a></li>
+                    <li><a href="Create.html">NFT 생성</a></li>
+                    <li><a href="Profile.html">프로필</a></li>
+                </ul>
+            </nav>  
+            <button id="loginBtn" class="login-btn">
+                <img src="asset/person-icon.png" alt="로그인 아이콘">
+            </button>
+            <div class="profile-menu">
+                <button id="profileBtn" class="login-btn">
+                    <img src="asset/person-icon.png" alt="프로필 이미지">
+                </button>
+                <div class="dropdown-content">
+                    <a href="#" id="profileLink">프로필</a>
+                    <a href="#" id="settingsLink">설정</a>
+                    <a href="Trade.html" id="tradeLink">거래</a>
+                </div>
+            </div>
+        </header>
+        <div id="nftContainer" class="nft-gallery"></div>
+
+        <main class="main-content">
+            <div class="profile-header">
+                <a href="Setting.html">
+                    <img src="asset/person-icon.png" alt="프로필 이미지">
+                </a>
+                <p id="username">이름 없음</p>
+                <p>지갑 주소: <span id="walletAddress">지갑 주소 없음</span></p>
+                <p id="signupDate">가입함 October 2024</p>
+            </div>
+
+            <div class="tabs">
+                <button class="tab-button" onclick="showProfileTab('collected')">수집됨</button>
+                <button class="tab-button" onclick="showProfileTab('proposed')">내가 한 제안</button>
+                <button class="tab-button" onclick="showProfileTab('transactions')">거래</button>
+                <button class="tab-button" onclick="showProfileTab('created')">생성됨</button>
+                <button class="tab-button" onclick="showProfileTab('favorites')">즐겨찾기</button>
+                <button class="tab-button" onclick="showProfileTab('activity')">활동</button>
+            </div>
+
+            <div id="collected" class="tab-content">
+                <h3>수집한 NFT</h3>
+                <p>이 검색어에 대한 아이템을 찾을 수 없습니다.</p>
+            </div>
+
+            <div id="proposed" class="tab-content" style="display: none;">
+                <h3>내가 한 제안</h3>
+                <p>제안한 NFT가 없습니다.</p>
+            </div>
+
+            <div id="transactions" class="tab-content" style="display: none;">
+                <h3>거래 내역</h3>
+                <p>거래 기록이 없습니다.</p>
+            </div>
+
+            <div id="created" class="tab-content" style="display: none;">
+                <h3>생성한 NFT</h3>
+                <div id="createdNFTs"></div>
+                <!-- User-created NFTs will be dynamically inserted here -->
+                <p>생성한 NFT가 없습니다.</p>
+            </div>
+            <script>
+                async function fetchUserCreatedNFTs(userAddress) {
+                    try {
+                        const response = await fetch(`/api/get-user-nfts/${userAddress}`); // Fetch user NFTs from the API
+                        if (!response.ok) throw new Error('사용자 NFT 데이터를 가져오는 데 실패했습니다.');
+            
+                        const nfts = await response.json();
+                        const createdNFTs = document.getElementById('createdNFTs');
+                        createdNFTs.innerHTML = ''; // Clear previous items
+            
+                        nfts.forEach(nft => {
+                            const nftItem = document.createElement('div');
+                            nftItem.className = 'nft-item';
+                            nftItem.innerHTML = `
+                                <img src="${nft.image_url}" alt="${nft.name}" class="nft-image">
+                                <h3>${nft.name}</h3>
+                                <p>가격: ${nft.price} ETH</p>
+                            `;
+                            createdNFTs.appendChild(nftItem);
+                        });
+                    } catch (error) {
+                        console.error('사용자 NFT 데이터를 가져오는 중 오류 발생:', error);
+                    }
+                }
+            
+                document.addEventListener('DOMContentLoaded', async () => {
+                    const userAddress = localStorage.getItem('userAddress'); // Assuming wallet address is stored in localStorage
+                    if (userAddress) {
+                        await fetchUserCreatedNFTs(userAddress);
+                    } else {
+                        console.error('지갑 주소가 없습니다.');
+                    }
+                });
+            </script>
+            <div id="favorites" class="tab-content" style="display: none;">
+                <h3>즐겨찾기</h3>
+                <p>즐겨찾기한 NFT가 없습니다.</p>
+            </div>
+
+            <div id="activity" class="tab-content" style="display: none;">
+                <h3>활동 내역</h3>
+                <p>최근 활동이 없습니다.</p>
+            </div>
+        </main>
+
+        <footer class="footer">
+            <p>© 2024 캡스톤. All Rights Reserved.</p>
+        </footer>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/web3modal"></script>
+    <script src="https://cdn.jsdelivr.net/npm/ethers@5.5.1/dist/ethers.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@walletconnect/web3-provider@1.7.8/dist/umd/index.min.js"></script>
+    <script src="app.js" defer></script>
+    
+    <script>
+        function showProfileTab(tabName) {
+            const tabs = document.querySelectorAll('.tab-content');
+            tabs.forEach(tab => {
+                tab.style.display = 'none';
+            });
+            document.getElementById(tabName).style.display = 'block';
+        }
+
+        showProfileTab('collected');
+    </script>
+    
+    <script>
+        let provider;
+        let signer;
+        let userAddress = '';
+        const web3Modal = new Web3Modal({
+            cacheProvider: true,
+            providerOptions: {
+                walletconnect: {
+                    package: window.WalletConnectProvider.default,
+                    options: {
+                        infuraId: "38c991ef7286459dbac33d58e1ab2772"
+                    }
+                }
+            }
+        });
+    
+        async function connectWallet() {
+            try {
+                provider = await web3Modal.connect();
+                const ethersProvider = new ethers.providers.Web3Provider(provider);
+                signer = ethersProvider.getSigner();
+                userAddress = await signer.getAddress();
+                document.getElementById('walletAddress').textContent = userAddress;
+                
+                const storedUsername = localStorage.getItem('username') || '이름 없음';
+                document.getElementById('username').textContent = storedUsername;
+                
+                checkLoginStatus(); // 로그인 상태 확인
+            } catch (error) {
+                console.error('지갑 연결 오류:', error);
+            }
+        }
+    
+        document.getElementById('loginBtn').addEventListener('click', connectWallet);
+    
+        window.addEventListener('load', async () => {
+            if (web3Modal.cachedProvider) {
+                await connectWallet();
+            }
+        });
+
+        async function checkLoginStatus() {
+            try {
+                const response = await fetch('/api/getUserAddress');
+                const text = await response.text();
+                console.log("응답 내용:", text);
+                const { userAddress } = JSON.parse(text);
+    
+                if (!userAddress) {
+                    alert("로그인이 필요합니다.");
+                    await connectWallet();
+                } else {
+                    await fetchProfile(userAddress);
+                }
+            } catch (error) {
+                console.error("지갑 주소를 가져오는 중 오류 발생:", error);
+                alert("지갑 주소를 가져오는 중 문제가 발생했습니다.");
+            }
+        }
+
+        async function fetchProfile(userAddress) {
+            try {
+                const response = await fetch(`/api/getProfile/${userAddress}`);
+                const profileData = await response.json();
+                updateProfileUI(profileData);
+            } catch (error) {
+                console.error("프로필 정보를 가져오는 중 오류 발생:", error);
+            }
+        }
+
+        function updateProfileUI(profileData) {
+            const { username, walletAddress } = profileData;
+            document.getElementById('username').textContent = username || '이름 없음';
+            document.getElementById('walletAddress').textContent = walletAddress || '지갑 주소 없음';
+        }
+    </script>
+
+</body>
+</html>

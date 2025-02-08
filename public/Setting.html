@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NFT 아트 마켓</title>
+    <link rel="stylesheet" href="css/Header.css">
+    <link rel="stylesheet" href="css/Setting.css">
+    <link rel="stylesheet" href="css/Footer.css">
+</head>
+<body>
+    <div class="App">
+        <header>
+
+
+            <nav>
+                <ul>
+                    <li><a href="Market.html">마켓</a></li>
+                    <li><a href="Create.html">NFT 생성</a></li>
+                    <li><a href="Profile.html">프로필</a></li>
+                </ul>
+            </nav>  
+            <button id="loginBtn" class="login-btn">
+                <img src="asset/person-icon.png" alt="로그인 아이콘">
+            </button>
+            <!-- 프로필 메뉴 추가 -->
+            <div class="profile-menu">
+                <button id="profileBtn" class="login-btn">
+                    <img src="asset/person-icon.png" alt="프로필 이미지">
+                </button>
+                <div class="dropdown-content">
+                    <a href="#" id="profileLink">프로필</a>
+                    <a href="#" id="settingsLink">설정</a>
+                    <a href="Trade.html" id="tradeLink">거래</a>
+                </div>
+            </div> 
+        </header>
+
+        
+
+        <main class="main-content">
+            <div class="container">
+                <!-- 사이드바 -->
+                <aside class="sidebar">
+                    <ul>
+                        <li><a href="#" class="tab-button active" onclick="showSettingsTab('profile')">Profile</a></li>
+                        <li><a href="#" class="tab-button" onclick="showSettingsTab('items')">추천 아이템</a></li>
+                        <li><a href="#" class="tab-button" onclick="showSettingsTab('notifications')">Notifications</a></li>
+                        <li><a href="#" class="tab-button" onclick="showSettingsTab('offers')">Offers</a></li>
+                        <li><a href="#" class="tab-button" onclick="showSettingsTab('account')">Account support</a></li>
+                        <li><a href="#" class="tab-button" onclick="showSettingsTab('developer')">Developer</a></li>
+                    </ul>
+                </aside>
+            
+                <!-- 메인 콘텐츠와 프로필 이미지를 감싸는 영역 -->
+                <div class="content-area">
+                    <!-- 메인 콘텐츠 -->
+                    <main class="main-content">
+                        <div id="profile" class="tab-content">
+                            <h2>프로필 세부 정보</h2>
+                            <div class="profile-form-area"> <!-- 프로필 이미지와 폼을 감싸는 div -->
+                                <form id="profileForm">
+                                    <div class="form-group">
+                                        <label for="username">사용자 이름</label>
+                                        <input type="text" id="username" placeholder="사용자 이름을 입력하세요.">
+                                    </div>
+                        
+                                    <div class="form-group">
+                                        <label for="bio">Bio</label>
+                                        <textarea id="bio" placeholder="여러분의 이야기를 공유해 주세요!"></textarea>
+                                    </div>
+                        
+                                    <div class="form-group">
+                                        <label for="email">이메일 주소</label>
+                                        <input type="email" id="email" placeholder="이메일 주소">
+                                    </div>
+                        
+                                    <div class="form-group">
+                                        <label>SNS 연결</label>
+                                        <div class="sns-group">
+                                            <button type="button" class="sns-btn twitter-btn">Twitter 연결</button>
+                                            <button type="button" class="sns-btn instagram-btn">Instagram 연결</button>
+                                        </div>
+                                    </div>
+                        
+                                    <div class="form-group">
+                                        <label for="link">링크</label>
+                                        <input type="url" id="link" placeholder="yoursite.io">
+                                    </div>
+                        
+                                    <div class="form-group">
+                                        <label>지갑 주소</label>
+                                        <!-- 지갑 주소를 표시할 위치 -->
+                                        <p id="walletAddress" class="walletAddress">지갑 주소가 여기에 표시됩니다.</p>
+                                    </div>
+                                    
+                        
+                                    <button type="submit" class="save-btn">저장</button>  
+                                </form>
+                                
+                                <!-- 프로필 이미지 -->
+                                <aside class="profile-sidebar">
+                                    <div class="profile-image-section">
+                                        <h3>프로필 이미지</h3>
+                                        <div class="image-placeholder">
+                                            <img src="asset/person-icon.png" alt="프로필 이미지">
+                                        </div>
+                                    </div>
+                                </aside>
+                            </div> <!-- profile-form-area -->
+                        </div>
+                        
+                        
+            
+                        <div id="items" class="tab-content">
+                            <h2>추천 아이템</h2>
+                            <p>추천된 아이템 목록이 여기에 표시됩니다.</p>
+                        </div>
+            
+                        <div id="notifications" class="tab-content">
+                            <h2>알림</h2>
+                            <p>알림 설정이 여기에 표시됩니다.</p>
+                        </div>
+            
+                        <div id="offers" class="tab-content">
+                            <h2>오퍼</h2>
+                            <p>받은 오퍼 내역이 여기에 표시됩니다.</p>
+                        </div>
+            
+                        <div id="account" class="tab-content">
+                            <h2>계정 지원</h2>
+                            <p>계정 관련 지원 정보를 확인하세요.</p>
+                        </div>
+            
+                        <div id="developer" class="tab-content">
+                            <h2>개발자</h2>
+                            <p>개발자 도구 관련 정보가 여기에 표시됩니다.</p>
+                        </div>
+                    </main>
+            
+                    
+            </div>
+        </main>
+
+        <footer class="footer">
+            <div class="footerContent"></div>
+            <p>© 2024 캡스톤. All Rights Reserved.</p>
+            <p>사업자 등록번호: 123-45-67890</p>
+            <p>주소: 대전광역시 동구 동대전로 171</p>
+            <p>전화번호: 02-1234-5678</p>
+        </footer>
+    </div>
+
+    <!-- Web3Modal 라이브러리 CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/web3modal"></script>
+    <script src="https://cdn.jsdelivr.net/npm/ethers@5.5.1/dist/ethers.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@walletconnect/web3-provider@1.7.8/dist/umd/index.min.js"></script>
+    <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+        const walletAddressElem = document.getElementById('walletAddress');
+        const savedWalletAddress = localStorage.getItem('userAddress');
+    
+        if (savedWalletAddress) {
+            walletAddressElem.textContent = savedWalletAddress; // HTML에 지갑 주소 설정
+            console.log('지갑 주소 초기화 완료:', savedWalletAddress);
+    
+            try {
+                console.log('fetchProfile 호출됨. 지갑 주소:', savedWalletAddress);
+                const response = await fetch(`/api/profile/${savedWalletAddress}`);
+                if (response.ok) {
+                    const profileData = await response.json();
+                    console.log('프로필 데이터:', profileData);
+                    updateProfileUI(profileData); // 데이터 반영
+                } else {
+                    console.error('프로필 데이터를 가져오지 못했습니다. 상태 코드:', response.status);
+                }
+            } catch (error) {
+                console.error('프로필 데이터 로드 중 오류:', error);
+            }
+        } else {
+            walletAddressElem.textContent = '지갑 주소가 여기에 표시됩니다.';
+            console.error('유효한 지갑 주소가 없습니다.');
+        }
+    });
+    
+    // UI 업데이트 함수
+    function updateProfileUI(profileData) {
+        if (!profileData) {
+            console.error('프로필 데이터가 없습니다.');
+            return;
+        }
+    
+        document.getElementById('username').value = profileData.username || '';
+        document.getElementById('bio').value = profileData.bio || '';
+        document.getElementById('email').value = profileData.email || '';
+        document.getElementById('link').value = profileData.link || '';
+        document.getElementById('walletAddress').textContent = profileData.wallet_address || '지갑 주소 없음';
+    }
+    </script>
+    
+    <script>
+        // 저장 버튼 클릭 이벤트 리스너 추가
+        document.querySelector('.save-btn').addEventListener('click', async (e) => {
+            e.preventDefault(); // 기본 제출 동작 방지
+    
+            // 폼 데이터 가져오기
+            const walletAddress = document.getElementById('walletAddress').textContent;
+            const username = document.getElementById('username').value;
+            const bio = document.getElementById('bio').value;
+            const email = document.getElementById('email').value;
+            const link = document.getElementById('link').value;
+    
+            // saveProfile 함수 호출
+            await saveProfile(walletAddress, username, bio, email, link);
+        });
+    
+        // saveProfile 함수 정의
+        const saveProfile = async (walletAddress, username, bio, email, link) => {
+            console.log('saveProfile 호출됨. 전송 데이터:', { walletAddress, username, bio, email, link });
+    
+            try {
+                const response = await fetch('/api/profile', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        wallet_address: walletAddress,
+                        username,
+                        bio,
+                        email,
+                        link,
+                    }),
+                });
+    
+                const result = await response.json();
+                console.log('서버 응답:', result);
+    
+                if (response.ok) {
+                    alert('프로필 정보가 성공적으로 저장되었습니다.');
+                } else {
+                    alert('저장 실패: ' + result.error);
+                }
+            } catch (error) {
+                console.error('저장 중 오류:', error);
+                alert('서버와 통신 중 문제가 발생했습니다.');
+            }
+        };
+    </script>
+    
+
+
+
+
+
+    <!-- JavaScript 파일 연결 -->
+    <script src="app.js"></script>
+</body>
+</html>

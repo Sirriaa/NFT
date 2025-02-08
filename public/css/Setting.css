@@ -1,0 +1,131 @@
+.container {
+    display: flex;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* 사이드바 스타일 */
+.sidebar {
+    width: 200px;
+    background-color: #f5f5f5;
+    padding: 20px;
+    border-right: 1px solid #ddd;
+}
+
+.sidebar ul {
+    list-style: none;
+}
+
+.sidebar ul li {
+    margin-bottom: 15px;
+}
+
+.sidebar ul li a {
+    text-decoration: none;
+    color: #333;
+    font-size: 18px;
+}
+
+.sidebar ul li a.active {
+    font-weight: bold;
+    color: #4CAF50;
+}
+
+/* 메인 콘텐츠 스타일 */
+.content-area {
+    display: flex; /* Flexbox 사용 */
+    flex: 1; /* 나머지 공간 차지 */
+}
+
+.main-content {
+    flex: 2; /* 메인 콘텐츠 영역 비율 */
+    padding: 20px;
+}
+
+.main-content h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.form-group input, 
+.form-group textarea {
+    width:600px; 
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box; /* 패딩과 보더를 포함하여 총 너비 계산 */
+    resize: none; /* 크기 조절 비활성화 */
+}
+
+.sns-group {
+    display: flex;
+    gap: 10px;
+}
+
+.sns-btn {
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    cursor: pointer;
+}
+
+.twitter-btn {
+    background-color: #1DA1F2;
+}
+
+.instagram-btn {
+    background-color: #C13584;
+}
+
+.save-btn {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.save-btn:hover {
+    background-color: #45a049;
+}
+
+/* 프로필 이미지 및 배너 섹션 */
+.profile-form-area {
+    display: flex; /* 플렉스 박스 사용 */
+    align-items: flex-start; /* 위쪽에 정렬 */
+}
+
+.profile-sidebar {
+    width: 250px; /* 사이드바 너비 */
+    padding: 20px;
+    text-align: center;
+}
+
+.profile-image-section {
+    margin-bottom: 30px;
+}
+
+.image-placeholder img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+}
+
+.banner-placeholder {
+    width: 200px;
+    height: 100px;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+}

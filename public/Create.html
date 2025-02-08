@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NFT 아트 마켓</title>
+    <link rel="stylesheet" href="css/Header.css">
+    <link rel="stylesheet" href="css/Create.css">
+    <link rel="stylesheet" href="css/Footer.css">
+</head>
+<body>
+    <div class="App">
+        <header>
+            <div class="home">
+                <a href="home.html">
+                    <button>NFT 아트 마켓</button>
+                </a>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="Market.html">마켓</a></li>
+                    <li><a href="Create.html">NFT 생성</a></li>
+                    <li><a href="Profile.html">프로필</a></li>
+                </ul>
+            </nav>
+            <button id="loginBtn" class="login-btn">
+                <img src="asset/person-icon.png" alt="로그인 아이콘">
+            </button>
+            <div class="profile-menu">
+                <button id="profileBtn" class="login-btn">
+                    <img src="asset/person-icon.png" alt="프로필 이미지">
+                </button>
+                <div class="dropdown-content">
+                    <a href="profile.html" id="profileLink">프로필</a>
+                    <a href="Setting.html" id="settingsLink">설정</a>
+                    <a href="Trade.html" id="tradeLink">거래</a>
+                </div>
+            </div>
+        </header>
+
+        <main class="main-content">
+            <div class="nft-container">
+                <h1 class="nft-title">NFT 생성하기</h1>
+                <div class="nft-upload-section">
+                    <label for="fileInput" class="nft-upload-box">
+                        <div class="nft-preview-wrapper">
+                            <img id="imagePreview" src="" class="nft-image-preview" alt="NFT 미리보기" style="display: none;">
+                            <img src="asset/plus.png" class="nft-image-plus" alt="Plus 이미지">
+                        </div>
+                        <input type="file" id="fileInput" class="nft-file-input" accept="image/*" onchange="previewImage(event)">
+                    </label>
+                </div>
+
+                <div class="nft-details">
+                    <label for="nftName" class="nft-label">NFT 이름</label>
+                    <input type="text" id="nftName" class="nft-input" placeholder="NFT 이름을 입력하세요">
+                    <label for="nftPrice" class="nft-label">가격 설정 (ETH)</label>
+                    <input type="number" id="nftPrice" class="nft-input" placeholder="가격을 입력하세요">
+                    <label for="nftDescription" class="nft-label">설명</label>
+                    <textarea id="nftDescription" class="nft-input" placeholder="NFT에 대한 설명을 입력하세요"></textarea>
+                    <label for="nftRoyalties" class="nft-label">로열티 (%)</label>
+                    <input type="number" id="nftRoyalties" class="nft-input" placeholder="로열티 비율을 입력하세요">
+                </div>
+
+                <button class="nft-submit-button" onclick="submitNFT()">NFT 생성하기</button>
+            </div>
+        </main>
+
+        <footer class="footer">
+            <div class="footerContent"></div>
+            <p>© 2024 캡스톤. All Rights Reserved.</p>
+            <p>사업자 등록번호: 123-45-67890</p>
+            <p>주소: 대전광역시 동구 동대전로 171</p>
+            <p>전화번호: 02-1234-5678</p>
+        </footer>
+    </div>
+
+    <!-- Web3.js 라이브러리 추가 -->
+    <script src="https://cdn.jsdelivr.net/npm/web3@1.5.2/dist/web3.min.js"></script>
+
+    <!-- Pinata API 및 NFT 생성 코드 -->
+    <script type="module">
+        const PINATA_API_KEY = 'bb635b4ad896356fe794';
+        const PINATA_SECRET_API_KEY = 'c3f85d018a4777e2c1e41970b4ee0ae2c9f437ec61b5da12e6ba426c95e734a1';
+
+        const contractAddress = '0x8e033c101CF23C663772Fc1B464a8d84E83888E2';
+        const contractABI = [
+	{
+		"inputs": [],
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "owner",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "approved",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"internalType": "uint256",
+				"name": "tokenId",
+				"type": "uint256"
+			}
+		],
+		"name": "Approval",
+		"type": "event"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "to",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "tokenId",
+				"type": "uint256"
+			}
+		],
+		"name": "approve",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "recipient",
+				"type": "address"
+			},
+			{
+				"internalType": "string",
+				"name": "imageUrl",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "price",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "royalties",
+				"type": "uint256"
+			}
+		],
+		"name": "mintNFT",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "from",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "to",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"internalType": "uint256",
+				"name": "tokenId",
+				"type": "uint256"
+			}
+		],
+		"name": "Transfer",
+		"type": "event"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "from",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "to",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "tokenId",
+				"type": "uint256"
+			}
+		],
+		"name": "transferFrom",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "owner",
+				"type": "address"
+			}
+		],
+		"name": "balanceOf",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "name",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "tokenId",
+				"type": "uint256"
+			}
+		],
+		"name": "ownerOf",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "symbol",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "tokenMetadata",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "imageUrl",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "price",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "royalties",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	}
+];
+        let contract;
+
+// previewImage 함수 전역 등록
+window.previewImage = function(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function() {
+                const output = document.getElementById('imagePreview');
+                output.src = reader.result;
+                output.style.display = 'block';
+            };
+            reader.readAsDataURL(file);
+        };
+
+// NFT 정보 저장 API 호출
+async function saveNFTToServer(name, description, price, imageUrl, royalties, creatorAddress) {
+    try {
+        const response = await fetch("/api/save-nft", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                name,
+                description,
+                price,
+                imageUrl,
+                royalties,
+                creator: creatorAddress,
+            }),
+        });
+
+        if (!response.ok) {
+            throw new Error("NFT 정보를 서버에 저장하는 데 실패했습니다.");
+        }
+        console.log("NFT 정보가 서버에 저장되었습니다.");
+    } catch (error) {
+        console.error("NFT 정보 저장 중 오류:", error);
+    }
+}
+
+window.submitNFT = async function () {
+    const nftName = document.getElementById("nftName").value;
+    const nftPrice = document.getElementById("nftPrice").value;
+    const nftDescription = document.getElementById("nftDescription").value;
+    const nftRoyalties = document.getElementById("nftRoyalties").value;
+    const fileInput = document.getElementById("fileInput").files[0];
+
+    if (!nftName || !nftPrice || !fileInput) {
+        alert("모든 필드를 입력해야 합니다!");
+        return;
+    }
+
+    try {
+        // Step 1: Pinata 업로드
+        const formData = new FormData();
+        formData.append("file", fileInput);
+        const metadata = JSON.stringify({
+            name: nftName,
+            keyvalues: {
+                description: nftDescription,
+                price: nftPrice,
+                royalties: nftRoyalties,
+            },
+        });
+        formData.append("pinataMetadata", metadata);
+
+        const pinataResponse = await fetch("https://api.pinata.cloud/pinning/pinFileToIPFS", {
+            method: "POST",
+            headers: {
+                "pinata_api_key": PINATA_API_KEY,
+                "pinata_secret_api_key": PINATA_SECRET_API_KEY,
+            },
+            body: formData,
+        });
+
+        if (!pinataResponse.ok) {
+            throw new Error(`Pinata 업로드 실패: ${pinataResponse.statusText}`);
+        }
+
+        const pinataResult = await pinataResponse.json();
+        const imageUrl = `https://gateway.pinata.cloud/ipfs/${pinataResult.IpfsHash}`;
+        console.log("IPFS 이미지 URL:", imageUrl);
+
+        // Step 2: Web3 및 스마트 컨트랙트 초기화
+        const web3 = new Web3(window.ethereum);
+        await window.ethereum.request({ method: "eth_requestAccounts" });
+        const accounts = await web3.eth.getAccounts();
+        const from = accounts[0];
+
+        // `contract` 초기화
+        const contract = new web3.eth.Contract(contractABI, contractAddress);
+
+        // Step 3: 스마트 컨트랙트 호출
+        await mintNFT(contract, from, imageUrl, web3.utils.toWei(nftPrice, "ether"), parseInt(nftRoyalties));
+        console.log("스마트 컨트랙트 호출 성공");
+
+        // Step 4: DB 저장
+        await saveNFTToServer(nftName, nftDescription, nftPrice, imageUrl, nftRoyalties, from);
+        alert("NFT가 성공적으로 생성되었습니다!");
+    } catch (error) {
+        console.error("NFT 등록 중 오류 발생:", error);
+        alert(`NFT 등록에 실패했습니다: ${error.message}`);
+    }
+};
+
+
+
+// mintNFT 함수 정의
+async function mintNFT(contract, recipient, imageUrl, price, royalties) {
+    try {
+        const tx = await contract.methods
+    .mintNFT(recipient, imageUrl, price, royalties)  
+    .send({ from: recipient, gas: 3000000 }); // 가스 설정
+
+        console.log("NFT 발행 트랜잭션:", tx);
+        return tx; // 성공 시 트랜잭션 결과 반환
+    } catch (error) {
+        console.error("NFT 발행 중 오류:", error.message); // 에러 메시지 출력
+        throw error; // 오류 발생 시 throw
+    }
+	
+}
+
+
+
+
+
+    </script>
+</body>
+</html>

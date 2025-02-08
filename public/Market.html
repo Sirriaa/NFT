@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NFT 아트 마켓</title>
+    <link rel="stylesheet" href="css/Header.css">
+    <link rel="stylesheet" href="css/Market.css">
+    <link rel="stylesheet" href="css/Footer.css">
+     <!-- Web3Modal 라이브러리 CDN -->
+     <script src="https://cdn.jsdelivr.net/npm/web3@1.5.2/dist/web3.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@walletconnect/web3-provider@1.7.8/dist/umd/index.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/web3modal"></script>
+
+
+</head>
+<body>
+    <div class="App">
+        <header>
+            <div class="Market">
+                
+            </div>
+            <a href="Market.html"class="logo-link">
+                    
+            <h1>NFT 아트 마켓</h1>
+
+        </a>
+            <nav>
+                <ul>
+                    <li><a href="Market.html">마켓</a></li>
+                    <li><a href="Create.html">NFT 생성</a></li>
+                    <li><a href="Profile.html">프로필</a></li>
+                </ul>
+            </nav>
+            <button id="loginBtn" class="login-btn">
+                <img src="asset/person-icon.png" alt="로그인 아이콘">
+            </button>
+            <!-- 프로필 메뉴 추가 -->
+            <div class="profile-menu">
+                <button id="profileBtn" class="login-btn">
+                    <img src="asset/person-icon.png" alt="프로필 이미지">
+                </button>
+                <div class="dropdown-content">
+                    <a href="#" id="profileLink">프로필</a>
+                    <a href="#" id="settingsLink">설정</a>
+                    <a href="#" id="tradeLink">거래</a>
+                </div>
+            </div>
+        </header>
+
+        <main>
+            <section class="item-list" id="marketItems">
+                
+            </section>
+        </main>
+        <script>
+            async function fetchMarketNFTs() {
+    try {
+        const response = await fetch('/api/get-market-nfts'); // Fetch NFTs from the API
+        if (!response.ok) throw new Error('NFT 데이터를 가져오는 데 실패했습니다.');
+
+        const nfts = await response.json();
+        const marketItems = document.getElementById('marketItems');
+        marketItems.innerHTML = ''; // Clear previous items
+
+        nfts.forEach(nft => {
+            const nftItem = document.createElement('div');
+            nftItem.className = 'nft-item';
+            nftItem.innerHTML = `
+                <img src="${nft.image_url}" alt="${nft.name}" class="nft-image">
+                <h3>${nft.name}</h3>
+                <p>가격: ${nft.price} ETH</p>
+            `;
+            marketItems.appendChild(nftItem);
+        });
+    } catch (error) {
+        console.error('NFT 데이터를 가져오는 중 오류 발생:', error.message);
+    }
+}
+
+document.addEventListener('DOMContentLoaded', fetchMarketNFTs);
+
+        </script>
+
+<style>
+    /* 간단한 스타일 추가 */
+    .nft-item {
+        border: 1px solid #ddd;
+        padding: 10px;
+        margin: 10px 0;
+        text-align: center;
+        background-color: #f9f9f9;
+        border-radius: 8px;
+    }
+
+    .nft-image {
+        max-width: 100%;
+        height: auto;
+        border-radius: 4px;
+        margin-bottom: 10px;
+    }
+</style>
+
+        <footer class="footer">
+            <div class="footerContent"></div>
+            <p>© 2024 캡스톤. All Rights Reserved.</p>
+            <p>사업자 등록번호: 123-45-67890</p>
+            <p>주소: 대전광역시 동구 동대전로 171</p>
+            <p>전화번호: 02-1234-5678</p>
+        </footer>
+    </div>
+
+
+    <!-- JavaScript 파일 연결 -->
+    <script src="app.js"></script>
+</body>
+</html>

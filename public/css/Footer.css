@@ -1,0 +1,24 @@
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.App {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Viewport의 전체 높이를 차지 */
+}
+
+.main-content {
+  flex: 1; /* 콘텐츠가 페이지 높이에 맞춰 늘어나도록 */
+  padding-top: 40px; /* 헤더와 콘텐츠 겹침 방지 */
+}
+
+.footer {
+  background-color: #a8aaa7;
+  color: #fff;
+  padding: 15px;
+  text-align: center;
+  margin-top: auto; /* 내용이 적으면 푸터가 아래로 밀림 */
+}
